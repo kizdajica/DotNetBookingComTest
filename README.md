@@ -1,5 +1,5 @@
 # DotNetBookingComTest
-C# Test for booking.com properties search
+C# test for booking.com properties search
 
 This test works on both booking.com home page layout versions.
 
