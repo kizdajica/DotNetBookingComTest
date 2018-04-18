@@ -28,7 +28,7 @@ namespace BookingCom.Tests
         [Fact]
         public void SearchforProperty()
         {
-            // Initialize PageHeader page and it's objects
+            // Initialize PageHeader page and its objects
             var pageHeader = new PageHeader();
             PageFactory.InitElements(driver, pageHeader);
 
