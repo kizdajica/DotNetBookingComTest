@@ -14,9 +14,12 @@ namespace BookingCom.Tests
     /// </summary>
     public class SearchTest : BaseTest
     {
-        private static Double score;
-        private static string priceString;
-        private static int price;
+        private static Double sScore;
+        private static string sPriceString;
+        private static int sPrice;
+        private static readonly By sTotalPrice = By.ClassName("totalPrice");
+        private static readonly string sDataScore = "data-score";
+        private static readonly By sHotelName = By.ClassName("sr-hotel__name");
 
         // Path to csv file with search data and delimiter used
         private static readonly string sCsvPath = "../../Data/SearchTestData.csv";
@@ -61,23 +64,23 @@ namespace BookingCom.Tests
                 try
                 {
                     // Find the price and score of the hotel
-                    priceString = property.FindElement(By.ClassName("totalPrice")).Text;
-                    price = int.Parse(priceString.Substring(priceString.Length - 3));
-                    score = Double.Parse(property.GetAttribute("data-score"));
+                    sPriceString = property.FindElement(sTotalPrice).Text;
+                    sPrice = int.Parse(sPriceString.Substring(sPriceString.Length - 3));
+                    sScore = Double.Parse(property.GetAttribute(sDataScore));
                 }
                 catch (NoSuchElementException)
                 {
                     // If hotel is sold out log its name and message
-                    Debug.WriteLine(property.FindElement(By.ClassName("sr-hotel__name")).Text + "'s last room sold out a few days ago.");
+                    Debug.WriteLine(property.FindElement(sHotelName).Text + "'s last room sold out a few days ago.");
                 }
 
                 // 5. Assert that there is a property with both
                 //  review mark of higher than ‘8.0’ and
                 //  price under ‘200’ EUR
-                if ((score > 9.0) && (price < 200))
+                if ((sScore > 8.0) && (sPrice < 200))
                 {
                     // 6.Use Console.log to report the name of the first property found
-                    Debug.WriteLine(property.FindElement(By.ClassName("sr-hotel__name")).Text);
+                    Debug.WriteLine("Matched hotel's name is: " + property.FindElement(sHotelName).Text);
                     break;
                 }
             }

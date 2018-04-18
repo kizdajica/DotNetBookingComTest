@@ -19,29 +19,29 @@ namespace BookingCom.BaseFolder
         public BaseTest()
         {
             driver = new ChromeDriver();
-            driver.Url = "https://www.booking.com/";
             driver.Manage().Window.Maximize();
+            driver.Url = "https://www.booking.com/";
         }
 
         public static List<string[]> ParseCsv(string file, string delimiter)
         {
-            var ParsedData = new List<string[]>();
-            string[] Fields;
+            var parsedData = new List<string[]>();
+            string[] fields;
 
-            using(var Parser = new TextFieldParser(file))
+            using(var parser = new TextFieldParser(file))
             {
-                Parser.TextFieldType = FieldType.Delimited;
-                Parser.SetDelimiters(delimiter);
-                Parser.TrimWhiteSpace = true;
+                parser.TextFieldType = FieldType.Delimited;
+                parser.SetDelimiters(delimiter);
+                parser.TrimWhiteSpace = true;
 
-                while (!Parser.EndOfData)
+                while (!parser.EndOfData)
                 {
-                    Fields = Parser.ReadFields();
-                    ParsedData.Add(Fields);
+                    fields = parser.ReadFields();
+                    parsedData.Add(fields);
                 }
             }
 
-            return ParsedData;
+            return parsedData;
         }
 
         // 2. Choose:
