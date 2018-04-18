@@ -56,21 +56,21 @@ namespace BookingCom.Tests
             // Create a list of properties returned by search
             var listOfProperties = searchResultsPage.Properties.FindElements(By.ClassName("sr_property_block"));
 
-            // 
+            // Loop through the list of properties and find the first property that matches the desired conditions
             foreach(IWebElement property in listOfProperties)
             {
                 // Find the first hotel with a review mark of higher than ‘8.0’ and	a price under ‘200’ EUR.
                 // If any hotel is sold out catch the NoSuchElementException and log the hotel's name and the message that it is sold out.
                 try
                 {
-                    // Find the price and score of the hotel
+                    // Find the price and the score of the hotel
                     sPriceString = property.FindElement(sTotalPrice).Text;
                     sPrice = int.Parse(sPriceString.Substring(sPriceString.Length - 3));
                     sScore = Double.Parse(property.GetAttribute(sDataScore));
                 }
                 catch (NoSuchElementException)
                 {
-                    // If hotel is sold out log its name and message
+                    // If the hotel is sold out log its name and message
                     Debug.WriteLine(property.FindElement(sHotelName).Text + "'s last room sold out a few days ago.");
                 }
 
@@ -96,7 +96,6 @@ namespace BookingCom.Tests
             //  1 child 5 years old
             //  2 rooms
             //  I'm traveling for work: check
-
             homePage.Destination.SendKeys(row[0]);
             var lastDay = GetLastDayOfCurrentMonth();
             homePage.CheckIn.SendKeys(lastDay);
