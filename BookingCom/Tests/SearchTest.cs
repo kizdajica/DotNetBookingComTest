@@ -70,7 +70,7 @@ namespace BookingCom.Tests
                 }
                 catch (NoSuchElementException)
                 {
-                    // If the hotel is sold out log its name and message
+                    // If the hotel is sold out, log its name and message
                     Debug.WriteLine(property.FindElement(sHotelName).Text + "'s last room sold out a few days ago.");
                 }
 
@@ -110,9 +110,17 @@ namespace BookingCom.Tests
             var ageNumber = new SelectElement(homePage.Age);
             ageNumber.SelectByValue(row[3]);
 
-            // "I'm traveling for work" chekcbox disabled due to the fact
-            // that the alternative Booking.com page style doesn't have this checkbox
-            //homePage.Work.Click();
+            // Since "I'm traveling for work" checkbox is missing on the new booking.com home page layout,
+            // possible exception is caught and message logged
+            try
+            {
+                homePage.Work.Click();
+            }
+            catch (NoSuchElementException)
+            {
+                // If the booking.com home page is displayed using the new layout, log the message
+                Debug.WriteLine("New Home Page layout displayed without the work checkbox.");
+            }
 
             // 4.Click on ‘Search’ button
             homePage.Search.Click();
