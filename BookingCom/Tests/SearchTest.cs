@@ -5,6 +5,7 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using Xunit;
 
 namespace BookingCom.Tests
@@ -101,8 +102,32 @@ namespace BookingCom.Tests
             homePage.CheckIn.SendKeys(lastDay);
             var firstDay = GetFirstDayOfNextMonth();
             homePage.CheckOut.SendKeys(firstDay);
-            var numberOfRooms = new SelectElement(homePage.Rooms);
+
+            // Since "Number of rooms" element is missing on the new booking.com home page layout,
+            // possible exception is caught and message logged
+            try
+            {
+                var numberOfRooms = new SelectElement(homePage.Rooms);
             numberOfRooms.SelectByValue(row[1]);
+            }
+            catch (NoSuchElementException)
+            {
+                // If the booking.com home page is displayed using the new layout, log the message
+                Debug.WriteLine("New Home Page layout displayed without the rooms element.");
+            }
+
+            // If the booking.com home page is displayed using the new layout,
+            // first click on the adults-child element to open dropdown
+            try
+            {
+                homePage.AdultsChildren.Click();
+            }
+            catch (NoSuchElementException)
+            {
+                // If the booking.com home page is displayed using the old layout, log the message
+                Debug.WriteLine("Old Home Page layout displayed.");
+            }
+
             var numberOfAdults = new SelectElement(homePage.Adults);
             numberOfAdults.SelectByValue(row[2]);
             var numberOfChildren = new SelectElement(homePage.Children);
@@ -110,16 +135,15 @@ namespace BookingCom.Tests
             var ageNumber = new SelectElement(homePage.Age);
             ageNumber.SelectByValue(row[3]);
 
-            // Since "I'm traveling for work" checkbox is missing on the new booking.com home page layout,
-            // possible exception is caught and message logged
+            // Since it is currently not possible to find work element by the same locator on different booking.com home page layouts,
+            // first try the old home page locator and then the new home page locator
             try
             {
                 homePage.Work.Click();
             }
-            catch (NoSuchElementException)
+            catch (TargetInvocationException)
             {
-                // If the booking.com home page is displayed using the new layout, log the message
-                Debug.WriteLine("New Home Page layout displayed without the work checkbox.");
+                driver.FindElement(By.ClassName("bui-checkbox__label")).Click();
             }
 
             // 4.Click on ‘Search’ button

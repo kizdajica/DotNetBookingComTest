@@ -34,5 +34,8 @@ namespace BookingCom.PageObjects
 
         [FindsBy(How = How.ClassName, Using = "sb-searchbox__button  ")]
         public IWebElement Search { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "[data-visible = 'accommodation']")]
+        public IWebElement AdultsChildren { get; set; }
     }
 }
