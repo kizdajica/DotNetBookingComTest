@@ -108,7 +108,7 @@ namespace BookingCom.Tests
             try
             {
                 var numberOfRooms = new SelectElement(homePage.Rooms);
-            numberOfRooms.SelectByValue(row[1]);
+                numberOfRooms.SelectByValue(row[1]);
             }
             catch (NoSuchElementException)
             {
@@ -139,11 +139,11 @@ namespace BookingCom.Tests
             // first try the old home page locator and then the new home page locator
             try
             {
-                homePage.Work.Click();
+                homePage.OldWork.Click();
             }
             catch (TargetInvocationException)
             {
-                driver.FindElement(By.ClassName("bui-checkbox__label")).Click();
+                homePage.NewWork.Click();
             }
 
             // 4.Click on ‘Search’ button

@@ -30,7 +30,10 @@ namespace BookingCom.PageObjects
         public IWebElement Age { get; set; }
 
         [FindsBy(How = How.Name, Using = "sb_travel_purpose")]
-        public IWebElement Work { get; set; }
+        public IWebElement OldWork { get; set; }
+
+        [FindsBy(How = How.ClassName, Using = "bui-checkbox__label")]
+        public IWebElement NewWork { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "sb-searchbox__button  ")]
         public IWebElement Search { get; set; }
